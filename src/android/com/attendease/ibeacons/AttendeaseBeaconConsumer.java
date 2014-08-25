@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 
+import java.lang.Boolean;
 import java.util.Collection;
 import java.util.Vector;
 import java.util.Hashtable;
@@ -47,6 +48,8 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     private IBeaconManager iBeaconManager = IBeaconManager.getInstanceForApplication(this);
 
     private JSONArray beaconUUIDs = new JSONArray();
+
+    private toCleanArray = new JSONArray();
 
     private static Hashtable beacons = new Hashtable();
 
@@ -117,6 +120,14 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
           @Override
           public void didExitRegion(Region region) {
             Log.i(TAG, "I no longer see an iBeacon: " + region.toString() );
+            Intent intent = new Intent(this, AttendeaseBeaconAlertActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // You can also include some extra data.
+            intent.putExtra("package", thus.getPackageName());
+            intent.putExtra("title", "You have lost a beacon!");
+            intent.putExtra("message", "Have a nice day.");
+            //                               intent.putExtra("beacon", beacon);
+            startActivity(intent);
           }
 
           @Override
@@ -139,79 +150,74 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
           public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons, Region region) {
               if (iBeacons.size() > 0) {
                   Iterator<IBeacon> iterator = iBeacons.iterator();
-
                   Vector data = new Vector();
+                  // Iterate through and clean if no such beacon.
+                  Set<String> keys = beaconNotifications.keySet();
+                  for(String key: keys) {
+//                      System.out.println("Value of " + key + " is: " + beaconNotifications.get(key));
+                      Boolean toClean = true;
+                      while (iterator.hasNext()) {
+                          IBeacon beacon = iterator.next();
+                          Log.i(TAG, region.getProximityUuid() + ": The iBeacon I see is about " + beacon.getAccuracy() + " meters away.");
+                          data.addElement(beacon);
 
-                  while (iterator.hasNext())
-                  {
-                      IBeacon beacon = iterator.next();
-                      Log.i(TAG, region.getProximityUuid() + ": The iBeacon I see is about " + beacon.getAccuracy() + " meters away.");
-                      data.addElement(beacon);
+                          String identifier = beacon.getProximityUuid() + "," + beacon.getMajor() + "," + beacon.getMinor();
+                          if (key == identifier) {
+                              toClean = false;
+                          }
 
-                      String identifier = beacon.getProximityUuid() + "," + beacon.getMajor() + "," + beacon.getMinor();
+                          // Only notify the server/app if the beacon is near or in yo' face!
+                          // Added CLProximityFar because walking into a room with the phone in your pocket seems to trigger this one first... and doesn't retrigger as you get closer.
+                          if (beacon.getProximity() == IBeacon.PROXIMITY_FAR || beacon.getProximity() == IBeacon.PROXIMITY_NEAR || beacon.getProximity() == IBeacon.PROXIMITY_IMMEDIATE) {
 
-                      // Only notify the server/app if the beacon is near or in yo' face!
-                      // Added CLProximityFar because walking into a room with the phone in your pocket seems to trigger this one first... and doesn't retrigger as you get closer.
-                      if (beacon.getProximity() == IBeacon.PROXIMITY_FAR || beacon.getProximity() == IBeacon.PROXIMITY_NEAR || beacon.getProximity() == IBeacon.PROXIMITY_IMMEDIATE)
-                      {
+                              Date previousTime = (Date) beaconNotifications.get(identifier);
 
-                          Date previousTime = (Date) beaconNotifications.get(identifier);
+                              Boolean notify = true;
 
-                          Boolean notify = true;
-
-                          if (previousTime != null)
-                          {
-                              Date currentTime = new Date();
-
-
-                              long seconds = (currentTime.getTime()-previousTime.getTime())/1000;
-
-                              Log.v(TAG, "Seconds since last notified --------> " + seconds);
-                              // Notify only once
+                              if (previousTime != null) {
+                                  Date currentTime = new Date();
+                                  long seconds = (currentTime.getTime() - previousTime.getTime()) / 1000;
+                                  Log.v(TAG, "Seconds since last notified --------> " + seconds);
+                                  // Notify only once
 
 //                               if (seconds < 60 || seconds < notificationInterval)
 //                               {
 //                                   notify = false;
 //                               }
-                          }
+                              }
 
-                          if (notify)
-                          {
-                              Log.v(TAG, "NOTIFY about this beacon: " + identifier);
-
-                              beaconNotifications.put(identifier, new Date());
-
-                              Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
-                              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                              // You can also include some extra data.
-                              intent.putExtra("package", thus.getPackageName());
-                              intent.putExtra("title", "You found a beacon!");
-                              intent.putExtra("message", "Have a nice day.");
-//                               intent.putExtra("beacon", beacon);
-                              startActivity(intent);
-
-//                               NotificationCompat.Builder builder =
-//                                       new NotificationCompat.Builder(thus)
-//                                               .setSmallIcon(getIconValue(thus.getPackageName(), "icon"))
-//                                               .setContentTitle("You found a beacon!")
-//                                               .setContentText("Have a nice day.");
-//                               int NOTIFICATION_ID = 424242;
-//
-//                               Intent targetIntent = new Intent(thus, AttendeaseBeacons.class);
-//                               PendingIntent contentIntent = PendingIntent.getActivity(thus, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                               builder.setContentIntent(contentIntent);
-//                               NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//                               nManager.notify(NOTIFICATION_ID, builder.build());
-
-
-                              if (notificationServer != "" && authToken != "")
-                              {
-                                  // TODO: notify the server about the beacon.
+                              if (notify) {
+                                  Log.v(TAG, "NOTIFY about this beacon: " + identifier);
+                                  beaconNotifications.put(identifier, new Date());
+                                  Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+                                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                  // You can also include some extra data.
+                                  intent.putExtra("package", thus.getPackageName());
+                                  intent.putExtra("title", "You found a beacon!");
+                                  intent.putExtra("message", "Have a nice day.");
+                                  startActivity(intent);
+                                  if (notificationServer != "" && authToken != "") {
+                                      // TODO: notify the server about the beacon.
+                                  }
                               }
                           }
                       }
+                      if(toClean == true) {
+                          Log.v(TAG, "NOTIFY about this beacon: " + identifier);
+                          beaconNotifications.put(identifier, new Date());
+                          Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+                          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                          // You can also include some extra data.
+                          intent.putExtra("package", thus.getPackageName());
+                          intent.putExtra("title", "You lost a beacon!");
+                          intent.putExtra("message", "Check others.");
+                          startActivity(intent);
+                      }
                   }
-
+                  Set<String> keys = beaconNotifications.keySet();
+                  for(String key: keys){
+                      System.out.println("Value of "+key+" is: "+beaconNotifications.get(key));
+                  }
                   beacons.put(region.getProximityUuid(), data);
               }
               else
