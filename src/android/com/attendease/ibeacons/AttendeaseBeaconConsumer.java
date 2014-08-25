@@ -49,7 +49,6 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 
     private JSONArray beaconUUIDs = new JSONArray();
 
-    private toCleanArray = new JSONArray();
 
     private static Hashtable beacons = new Hashtable();
 
