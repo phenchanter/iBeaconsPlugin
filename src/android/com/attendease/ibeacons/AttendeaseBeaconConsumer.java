@@ -200,7 +200,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           intent.putExtra("package", thus.getPackageName());
                           intent.putExtra("title", "You lost a beacon!");
                           intent.putExtra("message", "Check others.");
-                          beaconNotifications.remove(identifier)
+                          beaconNotifications.remove(identifier);
                           startActivity(intent);
                       }
                   }
