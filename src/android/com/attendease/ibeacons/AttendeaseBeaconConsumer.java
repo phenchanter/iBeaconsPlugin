@@ -167,11 +167,12 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               long seconds = (currentTime.getTime()-previousTime.getTime())/1000;
 
                               Log.v(TAG, "Seconds since last notified --------> " + seconds);
+                              // Notify only once
 
-                              if (seconds < 60 || seconds < notificationInterval)
-                              {
-                                  notify = false;
-                              }
+//                               if (seconds < 60 || seconds < notificationInterval)
+//                               {
+//                                   notify = false;
+//                               }
                           }
 
                           if (notify)
@@ -180,13 +181,13 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 
                               beaconNotifications.put(identifier, new Date());
 
-                              Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
-                              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                              // You can also include some extra data.
-                              intent.putExtra("package", thus.getPackageName());
-                              intent.putExtra("title", "You found a beacon!");
-                              intent.putExtra("message", "Have a nice day.");
-                              startActivity(intent);
+//                               Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+//                               intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                               // You can also include some extra data.
+//                               intent.putExtra("package", thus.getPackageName());
+//                               intent.putExtra("title", "You found a beacon!");
+//                               intent.putExtra("message", "Have a nice day.");
+//                               startActivity(intent);
 
                               NotificationCompat.Builder builder =
                                       new NotificationCompat.Builder(thus)
