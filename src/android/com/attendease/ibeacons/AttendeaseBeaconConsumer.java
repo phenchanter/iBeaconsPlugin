@@ -194,21 +194,17 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           }
                       }
                       if(toClean == true) {
-                          Log.v(TAG, "NOTIFY about this beacon: " + identifier);
-                          beaconNotifications.put(identifier, new Date());
                           Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
                           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                           // You can also include some extra data.
                           intent.putExtra("package", thus.getPackageName());
                           intent.putExtra("title", "You lost a beacon!");
                           intent.putExtra("message", "Check others.");
+                          beaconNotifications.remove(identifier)
                           startActivity(intent);
                       }
                   }
-                  Set<String> keys = beaconNotifications.keySet();
-                  for(String key: keys){
-                      System.out.println("Value of "+key+" is: "+beaconNotifications.get(key));
-                  }
+
                   beacons.put(region.getProximityUuid(), data);
               }
               else
