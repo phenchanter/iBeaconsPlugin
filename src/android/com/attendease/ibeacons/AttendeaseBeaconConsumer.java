@@ -119,14 +119,6 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
           @Override
           public void didExitRegion(Region region) {
             Log.i(TAG, "I no longer see an iBeacon: " + region.toString() );
-            Intent intent = new Intent(this, AttendeaseBeaconAlertActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            // You can also include some extra data.
-            intent.putExtra("package", thus.getPackageName());
-            intent.putExtra("title", "You have lost a beacon!");
-            intent.putExtra("message", "Have a nice day.");
-            //                               intent.putExtra("beacon", beacon);
-            startActivity(intent);
           }
 
           @Override
