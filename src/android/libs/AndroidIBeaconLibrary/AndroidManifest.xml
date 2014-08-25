@@ -8,12 +8,7 @@
     <application android:allowBackup="true">
         <service android:enabled="true" android:exported="true" android:isolatedProcess="false" android:label="iBeacon" android:name="com.radiusnetworks.ibeacon.service.IBeaconService">
         </service>
-        <activity android:name="com.attendease.ibeacons.AttendeaseBeaconAlertActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name="com.attendease.ibeacons.AttendeaseBeaconAlertActivity"></activity>
         <service android:enabled="true" android:name="com.radiusnetworks.ibeacon.IBeaconIntentProcessor">
         </service>
 
