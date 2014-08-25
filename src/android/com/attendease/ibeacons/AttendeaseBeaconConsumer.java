@@ -181,26 +181,27 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 
                               beaconNotifications.put(identifier, new Date());
 
-//                               Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
-//                               intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                               // You can also include some extra data.
-//                               intent.putExtra("package", thus.getPackageName());
-//                               intent.putExtra("title", "You found a beacon!");
-//                               intent.putExtra("message", "Have a nice day.");
-//                               startActivity(intent);
+                              Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+                              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                              // You can also include some extra data.
+                              intent.putExtra("package", thus.getPackageName());
+                              intent.putExtra("title", "You found a beacon!");
+                              intent.putExtra("message", "Have a nice day.");
+                              intent.putExtra("beacon", beacon);
+                              startActivity(intent);
 
-                              NotificationCompat.Builder builder =
-                                      new NotificationCompat.Builder(thus)
-                                              .setSmallIcon(getIconValue(thus.getPackageName(), "icon"))
-                                              .setContentTitle("You found a beacon!")
-                                              .setContentText("Have a nice day.");
-                              int NOTIFICATION_ID = 424242;
-
-                              Intent targetIntent = new Intent(thus, AttendeaseBeacons.class);
-                              PendingIntent contentIntent = PendingIntent.getActivity(thus, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                              builder.setContentIntent(contentIntent);
-                              NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                              nManager.notify(NOTIFICATION_ID, builder.build());
+//                               NotificationCompat.Builder builder =
+//                                       new NotificationCompat.Builder(thus)
+//                                               .setSmallIcon(getIconValue(thus.getPackageName(), "icon"))
+//                                               .setContentTitle("You found a beacon!")
+//                                               .setContentText("Have a nice day.");
+//                               int NOTIFICATION_ID = 424242;
+//
+//                               Intent targetIntent = new Intent(thus, AttendeaseBeacons.class);
+//                               PendingIntent contentIntent = PendingIntent.getActivity(thus, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                               builder.setContentIntent(contentIntent);
+//                               NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//                               nManager.notify(NOTIFICATION_ID, builder.build());
 
 
                               if (notificationServer != "" && authToken != "")
