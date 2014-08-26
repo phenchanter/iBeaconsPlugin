@@ -83,6 +83,12 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     }
 
     private void startNotification(Context context) {
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(getIconValue(context.getPackageName(), "icon"))
+                        .setContentTitle("You found a beacon!")
+                        .setContentText("Have a nice day.");
+
         Intent targetIntent = new Intent(context, AttendeaseBeacons.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
