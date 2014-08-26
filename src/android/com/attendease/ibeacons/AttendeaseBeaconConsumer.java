@@ -78,7 +78,18 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
       Log.i(TAG, "AttendeaseBeaconConsumer.setNotifyServerAuthToken");
       authToken = theAuthToken;
     }
-
+    private void runNotification(Context context, String title, String message){
+        Intent intent = new Intent(context, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // You can also include some extra data.
+        intent.putExtra("package", context.getPackageName());
+        intent.putExtra("title", title );
+        intent.putExtra("message", message);
+        startActivity(intent);
+        if (notificationServer != "" && authToken != "") {
+            // TODO: notify the server about the beacon.
+        }
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -120,18 +131,6 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     @Override
     public void onIBeaconServiceConnect() {
         final Context thus = this;
-        void runNotification(Context context, String title, String message){
-            Intent intent = new Intent(context, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            // You can also include some extra data.
-            intent.putExtra("package", context.getPackageName());
-            intent.putExtra("title", title );
-            intent.putExtra("message", message);
-            startActivity(intent);
-            if (notificationServer != "" && authToken != "") {
-                // TODO: notify the server about the beacon.
-            }
-        };
 
         iBeaconManager.setMonitorNotifier(new MonitorNotifier() {
           @Override
