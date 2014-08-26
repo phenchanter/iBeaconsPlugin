@@ -201,7 +201,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           Log.i(TAG, "iterate through keys");
                           Boolean toClean = true;
                           Boolean isChecked = false;
-
+                          Log.i(TAG,"Checking key " + key);
                           while (iterator.hasNext()) {
                               IBeacon beacon = iterator.next();
                               isChecked = true;
@@ -243,7 +243,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                                   }
                               }
                           }
-                          Log.i(TAG, "Pre delete "+toClean);
+                          Log.i(TAG, "Pre delete "+toClean +"   " + key);
                           if(toClean) {
                               deleteList.add(key);
                           }
