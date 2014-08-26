@@ -144,25 +144,17 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                   Vector data = new Vector();
                   // Iterate through and clean if no such beacon.
                   Set<String> keys = beaconNotifications.keySet();
-                  if(!keys){
+                  if(keys.size()>0){
                       while (iterator.hasNext()) {
                           IBeacon beacon = iterator.next();
                           Log.i(TAG, region.getProximityUuid() + ": The iBeacon I see is about " + beacon.getAccuracy() + " meters away.");
                           data.addElement(beacon);
-
                           String identifier = beacon.getProximityUuid() + "," + beacon.getMajor() + "," + beacon.getMinor();
-                          if (key == identifier) {
-                              toClean = false;
-                          }
-
                           // Only notify the server/app if the beacon is near or in yo' face!
                           // Added CLProximityFar because walking into a room with the phone in your pocket seems to trigger this one first... and doesn't retrigger as you get closer.
                           if (beacon.getProximity() == IBeacon.PROXIMITY_FAR || beacon.getProximity() == IBeacon.PROXIMITY_NEAR || beacon.getProximity() == IBeacon.PROXIMITY_IMMEDIATE) {
-
                               Date previousTime = (Date) beaconNotifications.get(identifier);
-
                               Boolean notify = true;
-
                               if (previousTime != null) {
                                   Date currentTime = new Date();
                                   long seconds = (currentTime.getTime() - previousTime.getTime()) / 1000;
