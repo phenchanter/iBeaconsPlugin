@@ -196,9 +196,11 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 //                      System.out.println("Value of " + key + " is: " + beaconNotifications.get(key));
                           Log.i(TAG, "iterate through keys");
                           Boolean toClean = true;
+                          Boolean isChecked = false;
 
                           while (iterator.hasNext()) {
                               IBeacon beacon = iterator.next();
+                              isChecked = true;
                               Log.i(TAG, region.getProximityUuid() + ": The iBeacon I see is about " + beacon.getAccuracy() + " meters away.");
                               data.addElement(beacon);
 
@@ -246,7 +248,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               }
                           }
                           Log.i(TAG, "Pre delete "+toClean);
-                          if(toClean == true && !iterator.hasNext()) {
+                          if(toClean == true && isChecked) {
                               Log.i(TAG, "delete "+ key);
                               Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
                               intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
