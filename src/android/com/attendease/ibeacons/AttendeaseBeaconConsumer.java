@@ -144,7 +144,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                   Vector data = new Vector();
                   // Iterate through and clean if no such beacon.
                   Set<String> keys = beaconNotifications.keySet();
-                  if(keys.size()>0){
+                  if(keys.size() == 0){
                       while (iterator.hasNext()) {
                           IBeacon beacon = iterator.next();
                           Log.i(TAG, region.getProximityUuid() + ": The iBeacon I see is about " + beacon.getAccuracy() + " meters away.");
