@@ -202,7 +202,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 
                               String identifier = beacon.getProximityUuid() + "," + beacon.getMajor() + "," + beacon.getMinor();
                               Log.i(TAG,"check if equal "+ (key == identifier)+"   identifier" + identifier +"  key"+key);
-                              if (key == identifier) {
+                              if (key.equals(identifier)) {
                                   toClean = false;
                               }
 
