@@ -6,6 +6,7 @@ import android.content.ServiceConnection;
 
 import java.lang.Boolean;
 import java.lang.String;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Vector;
 import java.util.Hashtable;
@@ -147,7 +148,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
           @Override
           public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons, Region region) {
               Log.i(TAG, "iBeacons size: "+iBeacons.size());
-              Set<String> deleteList = new HashSet<String>();
+
               if (iBeacons.size() > 0) {
                   notifyZero = true;
                   Iterator<IBeacon> iterator = iBeacons.iterator();
@@ -197,6 +198,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                       }
                   }
                   else {
+                      ArrayList<String> deleteList = new ArrayList<String>();
                       for(String key: keys) {
 //                      System.out.println("Value of " + key + " is: " + beaconNotifications.get(key));
                           Log.i(TAG, "iterate through keys");
@@ -266,6 +268,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           }
                       }
                       for (String dk: deleteList){
+
                           beaconNotifications.remove(dk);
                       }
 
