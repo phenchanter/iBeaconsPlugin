@@ -151,12 +151,13 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 
               if (iBeacons.size() > 0) {
                   notifyZero = true;
-                  Iterator<IBeacon> iterator = iBeacons.iterator();
+
                   Vector data = new Vector();
                   // Iterate through and clean if no such beacon.
                   Set<String> keys = beaconNotifications.keySet();
                   Log.i(TAG, "keys size: "+keys.size());
                   if(keys.size() == 0){
+                      Iterator<IBeacon> iterator = iBeacons.iterator();
                       Log.i(TAG, "no beaconNotifications keySet");
                       while (iterator.hasNext()) {
                           IBeacon beacon = iterator.next();
@@ -196,7 +197,9 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                   }
                   else {
                       ArrayList<String> deleteList = new ArrayList<String>();
+
                       for(String key: keys) {
+                      Iterator<IBeacon> iterator = iBeacons.iterator();
 //                      System.out.println("Value of " + key + " is: " + beaconNotifications.get(key));
                           Log.i(TAG, "iterate through keys");
                           Boolean toClean = true;
