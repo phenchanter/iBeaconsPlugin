@@ -181,10 +181,6 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               Date previousTime = (Date) beaconNotifications.get(identifier);
                               Boolean notify = true;
                               if (previousTime != null) {
-                                  Date currentTime = new Date();
-                                  long seconds = (currentTime.getTime() - previousTime.getTime()) / 1000;
-                                  Log.v(TAG, "Seconds since last notified --------> " + seconds);
-                                  // Notify only once
                                   notify = false;
                               }
 
@@ -198,8 +194,9 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                   }
                   else {
                       ArrayList<String> deleteList = new ArrayList<String>();
+                      int ind = 0;
                       for(String key: keys) {
-                      Iterator<IBeacon> iterator = iBeacons.iterator();
+                        Iterator<IBeacon> iterator = iBeacons.iterator();
 //                      System.out.println("Value of " + key + " is: " + beaconNotifications.get(key));
                           Log.i(TAG, "iterate through keys");
                           Boolean toClean = true;
@@ -209,23 +206,19 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               IBeacon beacon = iterator.next();
                               isChecked = true;
                               Log.i(TAG, region.getProximityUuid() + ": The iBeacon I see is about " + beacon.getAccuracy() + " meters away.");
-                              data.addElement(beacon);
+                              if(ind == 0){
+                                  data.addElement(beacon);
+                              }
                               String identifier = beacon.getProximityUuid() + "," + beacon.getMajor() + "," + beacon.getMinor();
                               Log.i(TAG,"check if equal "+ (key.equals(identifier))+"   identifier " + identifier +"  key "+key);
                               if (key.equals(identifier)) {
                                   toClean = false;
                                   Log.i(TAG,"must not delete " + key);
                               }
-                              // Only notify the server/app if the beacon is near or in yo' face!
-                              // Added CLProximityFar because walking into a room with the phone in your pocket seems to trigger this one first... and doesn't retrigger as you get closer.
                               if (beacon.getProximity() == IBeacon.PROXIMITY_FAR || beacon.getProximity() == IBeacon.PROXIMITY_NEAR || beacon.getProximity() == IBeacon.PROXIMITY_IMMEDIATE) {
                                   Date previousTime = (Date) beaconNotifications.get(identifier);
                                   Boolean notify = true;
                                   if (previousTime != null) {
-                                      Date currentTime = new Date();
-                                      long seconds = (currentTime.getTime() - previousTime.getTime()) / 1000;
-                                      Log.v(TAG, "Seconds since last notified --------> " + seconds);
-                                      // Notify only once
                                       notify = false;
                                   }
                                   if (notify) {
@@ -235,6 +228,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                                   }
                               }
                           }
+                          ind = ind + 1;
                           Log.i(TAG, "Pre delete "+toClean +"   " + key);
                           if(toClean) {
                               deleteList.add(key);
