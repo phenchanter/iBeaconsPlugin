@@ -89,7 +89,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                         .setContentTitle("You found a beacon!")
                         .setContentText("Have a nice day.");
 
-        Intent targetIntent = new Intent(context, com.neklo.karavan.notifications.class);
+        Intent targetIntent = new Intent(context, com.neklo.karavan.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1005, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
