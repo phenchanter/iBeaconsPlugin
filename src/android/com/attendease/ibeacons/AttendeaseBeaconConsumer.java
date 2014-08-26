@@ -55,6 +55,8 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 
     private static Hashtable beacons = new Hashtable();
 
+    private static int NOTIFICATION_ID = 424242;
+
     private static Hashtable beaconNotifications = new Hashtable();
 
     private static boolean notifyZero = false;
@@ -79,7 +81,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
       Log.i(TAG, "AttendeaseBeaconConsumer.setNotifyServerAuthToken");
       authToken = theAuthToken;
     }
-    private final static NOTIFICATION_ID = 424242;
+
     private void startNotification(Context context) {
         Intent targetIntent = new Intent(thus, AttendeaseBeacons.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
