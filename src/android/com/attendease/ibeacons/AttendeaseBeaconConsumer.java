@@ -151,7 +151,6 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
               beacons.clear();
               if (iBeacons.size() > 0) {
                   notifyZero = true;
-
                   Vector data = new Vector();
                   // Iterate through and clean if no such beacon.
                   Set<String> keys = beaconNotifications.keySet();
