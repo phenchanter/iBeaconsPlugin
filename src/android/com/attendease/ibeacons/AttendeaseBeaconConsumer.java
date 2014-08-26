@@ -120,7 +120,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     @Override
     public void onIBeaconServiceConnect() {
         final Context thus = this;
-        private void runNotification(Context context, String title, String message){
+        void runNotification(Context context, String title, String message){
             Intent intent = new Intent(context, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             // You can also include some extra data.
@@ -131,7 +131,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
             if (notificationServer != "" && authToken != "") {
                 // TODO: notify the server about the beacon.
             }
-        }
+        };
 
         iBeaconManager.setMonitorNotifier(new MonitorNotifier() {
           @Override
