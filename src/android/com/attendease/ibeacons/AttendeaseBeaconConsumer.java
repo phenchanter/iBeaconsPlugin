@@ -250,6 +250,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                       for (String dk: deleteList){
                           Log.i(TAG, "delete "+ dk);
                           beaconNotifications.remove(dk);
+                          Log.i(TAG, "size "+beaconNotifications.size());
                           cleaned = true;
                       }
                       if(cleaned){
