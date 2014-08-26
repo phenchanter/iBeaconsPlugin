@@ -141,6 +141,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
         iBeaconManager.setRangeNotifier(new RangeNotifier() {
           @Override
           public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons, Region region) {
+              Log.i(TAG, "iBeacons size: "+iBeacons.size());
               if (iBeacons.size() > 0) {
                   Iterator<IBeacon> iterator = iBeacons.iterator();
                   Vector data = new Vector();
@@ -260,6 +261,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
         });
 
         try {
+          Log.i(TAG,'beaconUUIDs '+ beaconUUIDs.length());
           for (int i = 0; i < beaconUUIDs.length(); ++i) {
               try {
                 String beaconUUID = beaconUUIDs.getString(i);
