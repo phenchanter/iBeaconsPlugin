@@ -83,7 +83,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     }
 
     private void startNotification(Context context) {
-        Intent targetIntent = new Intent(thus, AttendeaseBeacons.class);
+        Intent targetIntent = new Intent(context, AttendeaseBeacons.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
