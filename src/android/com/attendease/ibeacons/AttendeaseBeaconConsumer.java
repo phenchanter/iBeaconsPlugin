@@ -78,6 +78,18 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
       Log.i(TAG, "AttendeaseBeaconConsumer.setNotifyServerAuthToken");
       authToken = theAuthToken;
     }
+    private static void runNotification(String title, String message){
+        Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // You can also include some extra data.
+        intent.putExtra("package", thus.getPackageName());
+        intent.putExtra("title", title );
+        intent.putExtra("message", message);
+        startActivity(intent);
+        if (notificationServer != "" && authToken != "") {
+            // TODO: notify the server about the beacon.
+        }
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -118,6 +130,8 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     }
     @Override
     public void onIBeaconServiceConnect() {
+        final Context thus = this;
+
         iBeaconManager.setMonitorNotifier(new MonitorNotifier() {
           @Override
           public void didEnterRegion(Region region) {
@@ -141,8 +155,6 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
             }
           }
         });
-
-        final Context thus = this;
 
         iBeaconManager.setRangeNotifier(new RangeNotifier() {
           @Override
@@ -180,16 +192,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               if (notify) {
                                   Log.v(TAG, "NOTIFY about this beacon: " + identifier);
                                   beaconNotifications.put(identifier, new Date());
-                                  Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
-                                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                  // You can also include some extra data.
-                                  intent.putExtra("package", thus.getPackageName());
-                                  intent.putExtra("title", "You found a beacon!");
-                                  intent.putExtra("message", "Have a nice day.");
-                                  startActivity(intent);
-                                  if (notificationServer != "" && authToken != "") {
-                                      // TODO: notify the server about the beacon.
-                                  }
+
                               }
                           }
                       }
