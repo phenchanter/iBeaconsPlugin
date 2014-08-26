@@ -253,6 +253,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                 if(notifyZero) {
                     notifyZero = false;
                     runNotification(thus,"Lost!","Not so cool");
+                    beaconNotifications.clear();
                 }
               }
           }
