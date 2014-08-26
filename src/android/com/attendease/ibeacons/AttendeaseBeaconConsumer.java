@@ -244,6 +244,9 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               }
                           }
                           Log.i(TAG, "Pre delete "+toClean);
+                          if(toClean) {
+                              deleteList.add(key);
+                          }
 
                       }
                       Boolean cleaned  = false;
