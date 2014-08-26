@@ -90,7 +90,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                         .setContentText("Have a nice day.");
 
         Intent targetIntent = new Intent(context, AttendeaseBeacons.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 1005, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.notify(NOTIFICATION_ID, builder.build());
