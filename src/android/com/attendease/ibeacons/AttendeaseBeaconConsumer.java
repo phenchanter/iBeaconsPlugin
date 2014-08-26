@@ -206,6 +206,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               Log.i(TAG,"check if equal "+ (key.equals(identifier))+"   identifier " + identifier +"  key "+key);
                               if (key.equals(identifier)) {
                                   toClean = false;
+                                  Log.i(TAG,"must not delete " + key);
                               }
 
                               // Only notify the server/app if the beacon is near or in yo' face!
@@ -244,7 +245,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                                   }
                               }
                           }
-                          Log.i(TAG, "Pre delete");
+                          Log.i(TAG, "Pre delete "+toClean);
                           if(toClean == true) {
                               Log.i(TAG, "delete "+ key);
                               Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
