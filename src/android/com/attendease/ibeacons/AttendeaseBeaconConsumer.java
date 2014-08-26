@@ -146,7 +146,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
           @Override
           public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons, Region region) {
               Log.i(TAG, "iBeacons size: "+iBeacons.size());
-              ArrayList<String> deleteList = new ArrayList<String>();
+              Set<String> deleteList = new HashSet<String>();
               if (iBeacons.size() > 0) {
                   notifyZero = true;
                   Iterator<IBeacon> iterator = iBeacons.iterator();
@@ -261,7 +261,6 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               intent.putExtra("title", "You lost a beacon!");
                               intent.putExtra("message", "Check others.");
                               deleteList.add(key);
-
                               startActivity(intent);
                           }
                       }
