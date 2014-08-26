@@ -261,7 +261,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
         });
 
         try {
-          Log.i(TAG,'beaconUUIDs '+ beaconUUIDs.length());
+          Log.i(TAG,"beaconUUIDs "+ beaconUUIDs.length());
           for (int i = 0; i < beaconUUIDs.length(); ++i) {
               try {
                 String beaconUUID = beaconUUIDs.getString(i);
