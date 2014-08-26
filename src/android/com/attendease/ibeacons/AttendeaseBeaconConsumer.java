@@ -148,7 +148,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
           @Override
           public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons, Region region) {
               Log.i(TAG, "iBeacons size: "+iBeacons.size());
-
+              beacons.clear();
               if (iBeacons.size() > 0) {
                   notifyZero = true;
 
