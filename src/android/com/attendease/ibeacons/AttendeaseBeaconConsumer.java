@@ -53,6 +53,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     private static Hashtable beacons = new Hashtable();
 
     private static Hashtable beaconNotifications = new Hashtable();
+    private static boolean notifyZero = false;
 
     private static String notificationServer = "";
     private static Integer notificationInterval = 3600;
@@ -143,6 +144,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
           public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons, Region region) {
               Log.i(TAG, "iBeacons size: "+iBeacons.size());
               if (iBeacons.size() > 0) {
+                  notifyZero = true;
                   Iterator<IBeacon> iterator = iBeacons.iterator();
                   Vector data = new Vector();
                   // Iterate through and clean if no such beacon.
@@ -261,6 +263,16 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
               else
               {
                 beacons.put(region.getProximityUuid(), new Vector());
+                if(notifyZero) {
+                    notifyZero = false;
+                    Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // You can also include some extra data.
+                    intent.putExtra("package", thus.getPackageName());
+                    intent.putExtra("title", "You lost a beacon!");
+                    intent.putExtra("message", "Check others.");
+                    startActivity(intent);
+                }
               }
           }
         });
