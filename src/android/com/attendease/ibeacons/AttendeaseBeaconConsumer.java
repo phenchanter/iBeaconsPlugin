@@ -144,9 +144,9 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                   Vector data = new Vector();
                   // Iterate through and clean if no such beacon.
                   Set<String> keys = beaconNotifications.keySet();
-                  Log.i(TAG, 'keys size: '+keys.size());
+                  Log.i(TAG, "keys size: "+keys.size());
                   if(keys.size() == 0){
-                      Log.i(TAG, 'no beaconNotifications keySet');
+                      Log.i(TAG, "no beaconNotifications keySet");
                       while (iterator.hasNext()) {
                           IBeacon beacon = iterator.next();
                           Log.i(TAG, region.getProximityUuid() + ": The iBeacon I see is about " + beacon.getAccuracy() + " meters away.");
@@ -188,7 +188,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                   }
                   for(String key: keys) {
 //                      System.out.println("Value of " + key + " is: " + beaconNotifications.get(key));
-                      Log.i(TAG, 'iterate through keys');
+                      Log.i(TAG, "iterate through keys");
                       Boolean toClean = true;
                       while (iterator.hasNext()) {
                           IBeacon beacon = iterator.next();
