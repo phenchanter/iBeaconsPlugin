@@ -173,11 +173,8 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                                   long seconds = (currentTime.getTime() - previousTime.getTime()) / 1000;
                                   Log.v(TAG, "Seconds since last notified --------> " + seconds);
                                   // Notify only once
+                                  notify = false;
 
-                                  if (seconds < 60 || seconds < notificationInterval)
-                                  {
-                                      notify = false;
-                                  }
                               }
 
                               if (notify) {
@@ -221,23 +218,15 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               // Only notify the server/app if the beacon is near or in yo' face!
                               // Added CLProximityFar because walking into a room with the phone in your pocket seems to trigger this one first... and doesn't retrigger as you get closer.
                               if (beacon.getProximity() == IBeacon.PROXIMITY_FAR || beacon.getProximity() == IBeacon.PROXIMITY_NEAR || beacon.getProximity() == IBeacon.PROXIMITY_IMMEDIATE) {
-
                                   Date previousTime = (Date) beaconNotifications.get(identifier);
-
                                   Boolean notify = true;
-
                                   if (previousTime != null) {
                                       Date currentTime = new Date();
                                       long seconds = (currentTime.getTime() - previousTime.getTime()) / 1000;
                                       Log.v(TAG, "Seconds since last notified --------> " + seconds);
                                       // Notify only once
-
-                                      if (seconds < 60 || seconds < notificationInterval)
-                                      {
-                                          notify = false;
-                                      }
+                                      notify = false;
                                   }
-
                                   if (notify) {
                                       Log.v(TAG, "NOTIFY about this beacon: " + identifier);
                                       beaconNotifications.put(identifier, new Date());
@@ -246,7 +235,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                                       // You can also include some extra data.
                                       intent.putExtra("package", thus.getPackageName());
                                       intent.putExtra("title", "You found a beacon!");
-                                      intent.putExtra("message", "Have a nice day.");
+                                      intent.putExtra("message", "Cool.");
                                       startActivity(intent);
                                       if (notificationServer != "" && authToken != "") {
                                           // TODO: notify the server about the beacon.
@@ -255,21 +244,22 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               }
                           }
                           Log.i(TAG, "Pre delete "+toClean);
-                          if(toClean == true && iBeacons.size() > 0) {
 
-                              Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
-                              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                              // You can also include some extra data.
-                              intent.putExtra("package", thus.getPackageName());
-                              intent.putExtra("title", "You lost a beacon!");
-                              intent.putExtra("message", "Check others.");
-                              deleteList.add(key);
-                              startActivity(intent);
-                          }
                       }
+                      Boolean cleaned  = false;
                       for (String dk: deleteList){
                           Log.i(TAG, "delete "+ dk);
                           beaconNotifications.remove(dk);
+                          cleaned = true;
+                      }
+                      if(cleaned){
+                          Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+                          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                          // You can also include some extra data.
+                          intent.putExtra("package", thus.getPackageName());
+                          intent.putExtra("title", "You lost a beacon!");
+                          intent.putExtra("message", "You lost "+deleteList.size() + " beacons");
+                          startActivity(intent);
                       }
 
                   }
