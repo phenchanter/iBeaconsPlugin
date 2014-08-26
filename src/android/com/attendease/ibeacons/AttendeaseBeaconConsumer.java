@@ -181,7 +181,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                                   Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
                                   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                   // You can also include some extra data.
-                                  intent.putExtra("package", thus.getPackageName());x
+                                  intent.putExtra("package", thus.getPackageName());
                                   intent.putExtra("title", "You found a beacon!");
                                   intent.putExtra("message", "Have a nice day.");
                                   startActivity(intent);
