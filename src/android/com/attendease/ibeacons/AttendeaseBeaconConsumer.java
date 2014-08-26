@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 
 import java.lang.Boolean;
+import java.lang.String;
 import java.util.Collection;
 import java.util.Vector;
 import java.util.Hashtable;
@@ -145,6 +146,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
           @Override
           public void didRangeBeaconsInRegion(Collection<IBeacon> iBeacons, Region region) {
               Log.i(TAG, "iBeacons size: "+iBeacons.size());
+              ArrayList<String> deleteList = new ArrayList<String>();
               if (iBeacons.size() > 0) {
                   notifyZero = true;
                   Iterator<IBeacon> iterator = iBeacons.iterator();
@@ -258,10 +260,15 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               intent.putExtra("package", thus.getPackageName());
                               intent.putExtra("title", "You lost a beacon!");
                               intent.putExtra("message", "Check others.");
-                              beaconNotifications.remove(key);
+                              deleteList.add(key);
+
                               startActivity(intent);
                           }
                       }
+                      for (String dk: deleteList){
+                          beaconNotifications.remove(dk);
+                      }
+
                   }
                   beacons.put(region.getProximityUuid(), data);
               }
