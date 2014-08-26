@@ -56,6 +56,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     private static Hashtable beacons = new Hashtable();
 
     private static Hashtable beaconNotifications = new Hashtable();
+
     private static boolean notifyZero = false;
 
     private static String notificationServer = "";
@@ -78,6 +79,14 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
       Log.i(TAG, "AttendeaseBeaconConsumer.setNotifyServerAuthToken");
       authToken = theAuthToken;
     }
+    private final static NOTIFICATION_ID = 424242;
+    private void startNotification(Context context) {
+        Intent targetIntent = new Intent(thus, AttendeaseBeacons.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager.notify(NOTIFICATION_ID, builder.build());
+    }
     private void runNotification(Context context, String title, String message){
         Intent intent = new Intent(context, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -86,10 +95,35 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
         intent.putExtra("title", title );
         intent.putExtra("message", message);
         startActivity(intent);
+        startNotification(context);
         if (notificationServer != "" && authToken != "") {
             // TODO: notify the server about the beacon.
         }
     }
+//    public void postData(Hashtable beacons) {
+//        // Create a new HttpClient and Post Header
+//        HttpClient httpclient = new DefaultHttpClient();
+//        HttpPost httppost = new HttpPost("http://www.yoursite.com/script.php");
+//
+//        try {
+//            // Add your data
+//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+//            for(Beacon beacon: beacons){
+//
+//            }
+//            nameValuePairs.add(new BasicNameValuePair("id", "12345"));
+//            nameValuePairs.add(new BasicNameValuePair("stringdata", "AndDev is Cool!"));
+//            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//
+//            // Execute HTTP Post Request
+//            HttpResponse response = httpclient.execute(httppost);
+//
+//        } catch (ClientProtocolException e) {
+//            // TODO Auto-generated catch block
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//        }
+//    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
