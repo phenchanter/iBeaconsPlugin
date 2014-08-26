@@ -256,7 +256,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           }
                           Log.i(TAG, "Pre delete "+toClean);
                           if(toClean == true && iBeacons.size() > 0) {
-                              Log.i(TAG, "delete "+ key);
+
                               Intent intent = new Intent(thus, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
                               intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                               // You can also include some extra data.
@@ -268,7 +268,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           }
                       }
                       for (String dk: deleteList){
-
+                          Log.i(TAG, "delete "+ dk);
                           beaconNotifications.remove(dk);
                       }
 
