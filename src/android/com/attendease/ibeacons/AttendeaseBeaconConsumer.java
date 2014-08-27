@@ -1,5 +1,9 @@
 package com.attendease.ibeacons;
 
+
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -86,10 +90,11 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(getIconValue(context.getPackageName(), "icon"))
+                        .setAutoCancel(true)
                         .setContentTitle("You found a beacon!")
                         .setContentText("Have a nice day.");
 
-        Intent targetIntent = new Intent(context, com.neklo.karavan.class);
+        Intent targetIntent = new Intent(context, com.neklo.karavan.Karavan.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1005, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
