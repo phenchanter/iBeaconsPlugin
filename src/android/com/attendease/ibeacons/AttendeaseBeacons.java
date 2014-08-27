@@ -33,7 +33,7 @@ public class AttendeaseBeacons extends CordovaPlugin
     public void initialize(CordovaInterface cordova, CordovaWebView webView)
     {
         super.initialize(cordova, webView);
-        if(this.cordova.getActivity().getApplicationContext()){
+        if(this.cordova.getActivity().getApplicationContext() != null){
             beaconConsumer = new Intent(this.cordova.getActivity().getApplicationContext(), AttendeaseBeaconConsumer.class);
         }
     }
