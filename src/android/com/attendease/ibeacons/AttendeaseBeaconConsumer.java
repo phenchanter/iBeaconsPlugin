@@ -241,6 +241,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                   }
                   else {
                       ArrayList<String> deleteList = new ArrayList<String>();
+                      ArrayList<String> putList = new ArrayList<String>();
                       int ind = 0;
                       for(String key: keys) {
                         Iterator<IBeacon> iterator = iBeacons.iterator();
@@ -270,7 +271,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                                   }
                                   if (notify) {
                                       Log.v(TAG, "NOTIFY about this beacon: " + identifier);
-                                      beaconNotifications.put(identifier, new Date());
+                                      putList.add(identifier);
                                       runNotification(thus,"Find!","cool");
                                   }
                               }
@@ -282,6 +283,9 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           }
                       }
                       Boolean cleaned  = false;
+                      for (String pL: putList){
+                          beaconNotifications.put(pL, new Date());
+                      }
                       for (String dk: deleteList){
                           Log.i(TAG, "delete "+ dk);
                           beaconNotifications.remove(dk);
