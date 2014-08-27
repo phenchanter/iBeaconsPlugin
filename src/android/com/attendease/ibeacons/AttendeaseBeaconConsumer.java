@@ -90,6 +90,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(getIconValue(context.getPackageName(), "icon"))
+                        .setDefaults(-1)
                         .setAutoCancel(true)
                         .setContentTitle("You found a beacon!")
                         .setContentText("Have a nice day.");
@@ -101,13 +102,14 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
         nManager.notify(NOTIFICATION_ID, builder.build());
     }
     private void runNotification(Context context, String title, String message){
-        Intent intent = new Intent(context, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        // You can also include some extra data.
-        intent.putExtra("package", context.getPackageName());
-        intent.putExtra("title", title );
-        intent.putExtra("message", message);
-        startActivity(intent);
+        //ONLY notification center
+//        Intent intent = new Intent(context, AttendeaseBeaconAlertActivity.class); //this, "com.attendease.ibeacons.AttendeaseBeaconAlertService");
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        // You can also include some extra data.
+//        intent.putExtra("package", context.getPackageName());
+//        intent.putExtra("title", title );
+//        intent.putExtra("message", message);
+//        startActivity(intent);
         startNotification(context);
         if (notificationServer != "" && authToken != "") {
             // TODO: notify the server about the beacon.
@@ -156,7 +158,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
     @Override
     public void onCreate() {
