@@ -141,8 +141,8 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, intent == null ? "Ya null" : "Ya zver!");
-        Log.i(TAG, intent.getStringExtra("beaconUUIDs"));
         if(intent != null) {
+            Log.i(TAG, intent.getStringExtra("beaconUUIDs"));
             try {
                 beaconUUIDs = new JSONArray(intent.getStringExtra("beaconUUIDs"));
             } catch (JSONException e) {
