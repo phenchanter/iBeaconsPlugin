@@ -86,14 +86,14 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
       authToken = theAuthToken;
     }
 
-    private void startNotification(Context context) {
+    private void startNotification(Context context,String title, String message) {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(getIconValue(context.getPackageName(), "icon"))
                         .setDefaults(-1)
                         .setAutoCancel(true)
-                        .setContentTitle("You found a beacon!")
-                        .setContentText("Have a nice day.");
+                        .setContentTitle(title)
+                        .setContentText(message);
 
         Intent targetIntent = new Intent(context, com.neklo.karavan.Karavan.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1005, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -110,7 +110,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
 //        intent.putExtra("title", title );
 //        intent.putExtra("message", message);
 //        startActivity(intent);
-        startNotification(context);
+        startNotification(context,title,message);
         if (notificationServer != "" && authToken != "") {
             // TODO: notify the server about the beacon.
         }
@@ -236,7 +236,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                               if (notify) {
                                   Log.v(TAG, "NOTIFY about this beacon: " + identifier);
                                   beaconNotifications.put(identifier, new Date());
-                                  runNotification(thus,"Find!","cool");
+                                  runNotification(thus,"Open house found","by Karavan");
                               }
                           }
                       }
@@ -274,7 +274,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                                   if (notify) {
                                       Log.v(TAG, "NOTIFY about this beacon: " + identifier);
                                       putList.add(identifier);
-                                      runNotification(thus,"Find!","cool");
+                                      runNotification(thus,"Open house found","by Karavan");
                                   }
                               }
                           }
@@ -295,7 +295,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           cleaned = true;
                       }
                       if(cleaned){
-                          runNotification(thus,"Lost!","Not so cool");
+                          runNotification(thus,"Open house leaved","by Karavan");
                       }
                   }
                   beacons.put(region.getProximityUuid(), data);
@@ -305,7 +305,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                 beacons.put(region.getProximityUuid(), new Vector());
                 if(notifyZero) {
                     notifyZero = false;
-                    runNotification(thus,"Lost!","Not so cool");
+                    runNotification(thus,"Open house leaved","by Karavan");
                     beaconNotifications.clear();
                 }
               }
