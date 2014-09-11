@@ -295,7 +295,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           cleaned = true;
                       }
                       if(cleaned){
-                          runNotification(thus,"Open house leaved","by Karavan");
+                          runNotification(thus,"Open house Left","by Karavan");
                       }
                   }
                   beacons.put(region.getProximityUuid(), data);
@@ -305,7 +305,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                 beacons.put(region.getProximityUuid(), new Vector());
                 if(notifyZero) {
                     notifyZero = false;
-                    runNotification(thus,"Open house leaved","by Karavan");
+                    runNotification(thus,"Open house Left","by Karavan");
                     beaconNotifications.clear();
                 }
               }
