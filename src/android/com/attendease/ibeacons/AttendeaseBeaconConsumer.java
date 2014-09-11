@@ -263,7 +263,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                           // You can also include some extra data.
                           intent.putExtra("package", thus.getPackageName());
-                          intent.putExtra("title", "You lost a beacon!");
+                          intent.putExtra("title", "Open House Left");
                           intent.putExtra("message", "You lost "+deleteList.size() + " beacons");
                           startActivity(intent);
                       }
@@ -281,7 +281,7 @@ public class AttendeaseBeaconConsumer extends Service implements IBeaconConsumer
                     // You can also include some extra data.
                     beaconNotifications.clear();
                     intent.putExtra("package", thus.getPackageName());
-                    intent.putExtra("title", "You lost a beacon!");
+                    intent.putExtra("title", "Open House Left");
                     intent.putExtra("message", "Check others.");
                     startActivity(intent);
                 }
